@@ -127,7 +127,6 @@ public class Enhancement extends javax.swing.JFrame {
                 new Enhancement().setVisible(true);
             }
         });
-        System.out.println("hai");
     }
     
     public void prepare() {
@@ -207,6 +206,10 @@ public class Enhancement extends javax.swing.JFrame {
                     r = (r+treshold > 255) ? 255 : r;
                     g = (g+treshold > 255) ? 255 : g;
                     b = (b+treshold > 255) ? 255 : b;
+                    
+                    r = (r+treshold < 0) ? 0 : r;
+                    g = (g+treshold < 0) ? 0 : g;
+                    b = (b+treshold < 0) ? 0 : b;
                     Color f = new Color(r, g, b);
                     img2.setRGB(i, j, f.getRGB());
                 }
