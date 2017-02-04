@@ -246,15 +246,23 @@ public class Enhancement extends javax.swing.JFrame {
     public void binary() {
         try {
             BufferedImage img = ImageIO.read(new File("src/res/sample.jpg"));
-            for (int i = 0; i < img.getWidth(); i++) {
-                for (int j = 0; j < img.getHeight(); j++) {
-                    if ((i > 250 && i < 300) || (j > 250 && j < 300)) {
-                        img.setRGB(i, j, -16567481);
+            BufferedImage img2 = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+            for (int i = 0; i < img2.getWidth(); i++) {
+                for (int j = 0; j < img2.getHeight(); j++) {
+                    Color temp = new Color(img.getRGB(i, j));
+                    int thres = 100;
+                    int binary = (temp.getRed() + temp.getGreen() + temp.getBlue())/3;
+                    if(binary>=100){
+                        binary = 255;
+                    }else{
+                        binary = 0;
                     }
+                    Color f = new Color(binary, binary, binary);
+                    img2.setRGB(i, j, f.getRGB());
                 }
             }
             lblImage.setOpaque(true);
-            lblImage.setIcon(new ImageIcon(img));
+            lblImage.setIcon(new ImageIcon(img2));
         }
         catch (Exception e) {
             e.printStackTrace();
