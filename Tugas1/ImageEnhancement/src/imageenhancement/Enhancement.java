@@ -127,6 +127,7 @@ public class Enhancement extends javax.swing.JFrame {
                 new Enhancement().setVisible(true);
             }
         });
+        System.out.println("hai");
     }
     
     public void prepare() {
