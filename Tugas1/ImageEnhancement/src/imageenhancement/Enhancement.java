@@ -6,9 +6,12 @@
 package imageenhancement;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
 /**
@@ -22,22 +25,8 @@ public class Enhancement extends javax.swing.JFrame {
      */
     public Enhancement() {
         initComponents();
-        try {
-            BufferedImage img = ImageIO.read(new File("src/res/sample.jpg"));
-//            BufferedImage img2 = img;
-//            for (int i = 0; i < img2.getWidth(); i++) {
-//                for (int j = 0; j < img2.getHeight(); j++) {
-//                    if ((i > 250 && i < 300) || (j > 250 && j < 300)) {
-//                        img2.setRGB(i, j, -16567481);
-//                    }
-//                }
-//            }
-            lblImage.setOpaque(true);
-            lblImage.setIcon(new ImageIcon(img));
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        setLocationRelativeTo(null);
+        prepare();
     }
 
     /**
@@ -49,17 +38,41 @@ public class Enhancement extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
         lblImage = new javax.swing.JLabel();
+        cbPilihan = new javax.swing.JComboBox<>();
+        btnOK = new javax.swing.JButton();
+
+        jScrollPane1.setViewportView(jTextPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Image Enhancement");
+        setResizable(false);
+
+        cbPilihan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnOK.setText("OK");
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addComponent(cbPilihan, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnOK)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -67,11 +80,19 @@ public class Enhancement extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbPilihan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnOK))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOKActionPerformed
 
     /**
      * @param args the command line arguments
@@ -107,8 +128,75 @@ public class Enhancement extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void prepare() {
+        normal();
+        String [] list = {"Normal", "Brightness", "Negatif", "Binary"};
+        cbPilihan.setModel(new DefaultComboBoxModel(list));
+        
+        btnOK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int a = cbPilihan.getSelectedIndex();
+                switch (a) {
+                    case 0 : normal(); break;
+                    case 1 : break;
+                    case 2 : break;
+                    case 3 : binary(); break;
+                }
+            }
+        });
+    }
 
+    public void normal() {
+        try {
+            BufferedImage img = ImageIO.read(new File("src/res/sample.jpg"));
+//            BufferedImage img2 = img;
+//            for (int i = 0; i < img2.getWidth(); i++) {
+//                for (int j = 0; j < img2.getHeight(); j++) {
+//                    if ((i > 250 && i < 300) || (j > 250 && j < 300)) {
+//                        img2.setRGB(i, j, -16567481);
+//                    }
+//                }
+//            }
+            lblImage.setOpaque(true);
+            lblImage.setIcon(new ImageIcon(img));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void negatif() {
+        
+    }
+    
+    public void brightness() {
+        
+    }
+    
+    public void binary() {
+        try {
+            BufferedImage img = ImageIO.read(new File("src/res/sample.jpg"));
+            for (int i = 0; i < img.getWidth(); i++) {
+                for (int j = 0; j < img.getHeight(); j++) {
+                    if ((i > 250 && i < 300) || (j > 250 && j < 300)) {
+                        img.setRGB(i, j, -16567481);
+                    }
+                }
+            }
+            lblImage.setOpaque(true);
+            lblImage.setIcon(new ImageIcon(img));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOK;
+    private javax.swing.JComboBox<String> cbPilihan;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel lblImage;
     // End of variables declaration//GEN-END:variables
 }
