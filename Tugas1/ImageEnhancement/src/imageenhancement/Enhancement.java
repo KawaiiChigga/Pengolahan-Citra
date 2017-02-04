@@ -132,7 +132,8 @@ public class Enhancement extends javax.swing.JFrame {
     
     public void prepare() {
         normal();
-        String [] list = {"Normal", "Brightness", "Negatif", "Binary"};
+        String [] list = {"Normal", "Brightness", "Negatif", "Binary","Grey Scale"};
+        
         cbPilihan.setModel(new DefaultComboBoxModel(list));
         
         btnOK.addActionListener(new ActionListener() {
@@ -144,6 +145,7 @@ public class Enhancement extends javax.swing.JFrame {
                     case 1 : break;
                     case 2 : negatif(); break;
                     case 3 : binary(); break;
+                    case 4 : greyScale();break;
                 }
             }
         });
@@ -191,6 +193,27 @@ public class Enhancement extends javax.swing.JFrame {
     
     public void brightness() {
         
+    }
+    
+    public void greyScale(){
+        try {
+            BufferedImage img = ImageIO.read(new File("src/res/sample.jpg"));
+            BufferedImage img2 = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+            for (int i = 0; i < img2.getWidth(); i++) {
+                for (int j = 0; j < img2.getHeight(); j++) {
+                    Color temp = new Color(img.getRGB(i, j));
+                    
+                    int grey = (temp.getRed() + temp.getGreen() + temp.getBlue())/3;
+                    Color f = new Color(grey,grey,grey);
+                    img2.setRGB(i, j, f.getRGB());
+                }
+            }
+            lblImage.setOpaque(true);
+            lblImage.setIcon(new ImageIcon(img2));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void binary() {
