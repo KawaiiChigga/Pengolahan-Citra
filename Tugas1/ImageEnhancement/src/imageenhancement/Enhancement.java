@@ -142,7 +142,7 @@ public class Enhancement extends javax.swing.JFrame {
                 int a = cbPilihan.getSelectedIndex();
                 switch (a) {
                     case 0 : normal(); break;
-                    case 1 : break;
+                    case 1 : brightness(); break;
                     case 2 : negatif(); break;
                     case 3 : binary(); break;
                     case 4 : greyScale();break;
@@ -192,7 +192,31 @@ public class Enhancement extends javax.swing.JFrame {
     }
     
     public void brightness() {
-        
+        try {
+            int treshold = 120;
+            BufferedImage img = ImageIO.read(new File("src/res/sample.jpg"));
+            BufferedImage img2 = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+            for (int i = 0; i < img2.getWidth(); i++) {
+                for (int j = 0; j < img2.getHeight(); j++) {
+                    Color temp = new Color(img.getRGB(i, j));
+                    
+                    int r = temp.getRed();
+                    int g = temp.getGreen();
+                    int b = temp.getBlue();
+                    
+                    r = (r+treshold > 255) ? 255 : r;
+                    g = (g+treshold > 255) ? 255 : g;
+                    b = (b+treshold > 255) ? 255 : b;
+                    Color f = new Color(r, g, b);
+                    img2.setRGB(i, j, f.getRGB());
+                }
+            }
+            lblImage.setOpaque(true);
+            lblImage.setIcon(new ImageIcon(img2));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void greyScale(){
