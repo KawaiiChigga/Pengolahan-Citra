@@ -142,7 +142,7 @@ public class Enhancement extends javax.swing.JFrame {
                 switch (a) {
                     case 0 : normal(); break;
                     case 1 : break;
-                    case 2 : break;
+                    case 2 : negatif(); break;
                     case 3 : binary(); break;
                 }
             }
@@ -169,7 +169,24 @@ public class Enhancement extends javax.swing.JFrame {
     }
     
     public void negatif() {
-        
+        try {
+            BufferedImage img = ImageIO.read(new File("src/res/sample.jpg"));
+            BufferedImage img2 = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+            for (int i = 0; i < img2.getWidth(); i++) {
+                for (int j = 0; j < img2.getHeight(); j++) {
+                    Color temp = new Color(img.getRGB(i, j));
+                    
+                    int neg = 255 - (temp.getRed() + temp.getGreen() + temp.getBlue())/3;
+                    Color f = new Color(neg, neg, neg);
+                    img2.setRGB(i, j, f.getRGB());
+                }
+            }
+            lblImage.setOpaque(true);
+            lblImage.setIcon(new ImageIcon(img2));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void brightness() {
