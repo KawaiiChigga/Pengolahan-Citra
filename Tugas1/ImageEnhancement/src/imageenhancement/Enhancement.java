@@ -252,7 +252,7 @@ public class Enhancement extends javax.swing.JFrame {
                     Color temp = new Color(img.getRGB(i, j));
                     int thres = 100;
                     int binary = (temp.getRed() + temp.getGreen() + temp.getBlue())/3;
-                    if(binary>=100){
+                    if(binary>=thres){
                         binary = 255;
                     }else{
                         binary = 0;
