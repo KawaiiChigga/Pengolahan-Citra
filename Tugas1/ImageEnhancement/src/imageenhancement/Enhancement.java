@@ -192,7 +192,7 @@ public class Enhancement extends javax.swing.JFrame {
     
     public void brightness() {
         try {
-            int treshold = 120;
+            int treshold = -120;
             BufferedImage img = ImageIO.read(new File("src/res/sample.jpg"));
             BufferedImage img2 = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
             for (int i = 0; i < img2.getWidth(); i++) {
