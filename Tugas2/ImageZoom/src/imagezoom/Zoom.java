@@ -146,7 +146,7 @@ public class Zoom extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-        String [] list = {"Pixel Replication", "Zero Order Hold", "K-Times Zooming"};
+        String [] list = {"Pixel Replication", "Bilinear Interpolation", "K-Times Zooming"};
         
         cbPilihan.setModel(new DefaultComboBoxModel(list));
         
@@ -200,34 +200,43 @@ public class Zoom extends javax.swing.JFrame {
             JFrame frame = new JFrame();
             frame.setSize(img.getHeight()*n-1, img.getWidth()*n-1);
             frame.setLocationRelativeTo(null);
-            frame.setTitle("Pixel Replication");
+            frame.setTitle("Bilinear Interpolation");
             
             JLabel lblImg = new JLabel();
             lblImg.setSize(img.getHeight()*n-1, img.getWidth()*n-1);
             lblImg.setOpaque(true);
             
-            BufferedImage imgZoom = new BufferedImage(img.getHeight()*n-1, img.getWidth()*n-1, img.getType());
+            BufferedImage imgZoomOne = new BufferedImage(img.getWidth()*n-1, img.getHeight(), img.getType());
             
-//            for (int i = 0; i < imgZoom.getHeight(); i++) {
-//                for (int j = 0; j < imgZoom.getWidth(); j++) {
-//                    if (j <= 100) {
-//                        imgZoom.setRGB(i, j, -12179155);
-//                    } else if (j <= 200) {
-//                        imgZoom.setRGB(i, j, -12047569);
-//                    } else {
-//                        imgZoom.setRGB(i, j, -12113362);
-//                    }
-//                    
-//                }
-//                
-//            }
-            for (int i = 0; i < imgZoom.getHeight(); i++) {
-                for (int j = 0; j < imgZoom.getWidth(); j++) {
-                    imgZoom.setRGB(i, j, (img.getRGB(i/n, j/n) + img.getRGB(i/n, (j/n)+1))/2);
+            for (int y = 0; y < imgZoomOne.getHeight(); y++) {
+                for (int x = 0; x < imgZoomOne.getWidth(); x++) {
+                    if (x % 2 == 0) {
+                        imgZoomOne.setRGB(x, y, img.getRGB(x/n, y));
+                    } else {
+                        Color a = new Color(imgZoomOne.getRGB(x-1, y));
+                        Color b = new Color(img.getRGB((x/n)+1, y));
+                        Color c = new Color((b.getRed()+a.getRed())/2, (b.getGreen()+a.getGreen())/2, (b.getBlue()+a.getBlue())/2);
+                        imgZoomOne.setRGB(x, y, c.getRGB());
+                    }
                 }
             }
             
-            lblImg.setIcon(new ImageIcon(imgZoom));
+            BufferedImage imgZoomTwo = new BufferedImage(img.getWidth()*n-1, img.getHeight()*n-1, img.getType());
+            
+            for (int y = 0; y < imgZoomTwo.getHeight(); y++) {
+                for (int x = 0; x < imgZoomTwo.getWidth(); x++) {
+                    if (y % 2 == 0) {
+                        imgZoomTwo.setRGB(x, y, imgZoomOne.getRGB(x, y/n));
+                    } else {
+                        Color a = new Color(imgZoomTwo.getRGB(x, y-1));
+                        Color b = new Color(imgZoomOne.getRGB(x, (y/n)+1));
+                        Color c = new Color((b.getRed()+a.getRed())/2, (b.getGreen()+a.getGreen())/2, (b.getBlue()+a.getBlue())/2);
+                        imgZoomTwo.setRGB(x, y, c.getRGB());
+                    }
+                }
+            }
+            
+            lblImg.setIcon(new ImageIcon(imgZoomTwo));
             frame.add(lblImg);
             
             frame.setVisible(true);
