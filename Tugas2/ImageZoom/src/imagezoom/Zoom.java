@@ -168,17 +168,17 @@ public class Zoom extends javax.swing.JFrame {
             int n = 2;
             
             JFrame frame = new JFrame();
-            frame.setSize(img.getHeight()*2, img.getWidth()*2);
+            frame.setSize(img.getHeight()*n, img.getWidth()*n);
             frame.setLocationRelativeTo(null);
             frame.setTitle("Pixel Replication");
             
             JLabel lblImg = new JLabel();
-            lblImg.setSize(img.getHeight()*2, img.getWidth()*2);
+            lblImg.setSize(img.getHeight()*n, img.getWidth()*n);
             lblImg.setOpaque(true);
             
             BufferedImage imgZoom = new BufferedImage(img.getHeight()*n, img.getWidth()*n, img.getType());
-            for (int i = 0; i < imgZoom.getWidth(); i++) {
-                for (int j = 0; j < imgZoom.getHeight(); j++) {
+            for (int i = 0; i < imgZoom.getHeight(); i++) {
+                for (int j = 0; j < imgZoom.getWidth(); j++) {
                     imgZoom.setRGB(i, j, img.getRGB(i/n, j/n));
                 }
             }
@@ -195,7 +195,42 @@ public class Zoom extends javax.swing.JFrame {
     
     public void methodTwo() {
         try {
+            int n = 2;
             
+            JFrame frame = new JFrame();
+            frame.setSize(img.getHeight()*n-1, img.getWidth()*n-1);
+            frame.setLocationRelativeTo(null);
+            frame.setTitle("Pixel Replication");
+            
+            JLabel lblImg = new JLabel();
+            lblImg.setSize(img.getHeight()*n-1, img.getWidth()*n-1);
+            lblImg.setOpaque(true);
+            
+            BufferedImage imgZoom = new BufferedImage(img.getHeight()*n-1, img.getWidth()*n-1, img.getType());
+            
+//            for (int i = 0; i < imgZoom.getHeight(); i++) {
+//                for (int j = 0; j < imgZoom.getWidth(); j++) {
+//                    if (j <= 100) {
+//                        imgZoom.setRGB(i, j, -12179155);
+//                    } else if (j <= 200) {
+//                        imgZoom.setRGB(i, j, -12047569);
+//                    } else {
+//                        imgZoom.setRGB(i, j, -12113362);
+//                    }
+//                    
+//                }
+//                
+//            }
+            for (int i = 0; i < imgZoom.getHeight(); i++) {
+                for (int j = 0; j < imgZoom.getWidth(); j++) {
+                    imgZoom.setRGB(i, j, (img.getRGB(i/n, j/n) + img.getRGB(i/n, (j/n)+1))/2);
+                }
+            }
+            
+            lblImg.setIcon(new ImageIcon(imgZoom));
+            frame.add(lblImg);
+            
+            frame.setVisible(true);
         }
         catch (Exception e) {
             e.printStackTrace();
