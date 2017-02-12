@@ -173,13 +173,13 @@ public class Zoom extends javax.swing.JFrame {
             frame.setTitle("Pixel Replication");
             
             JLabel lblImg = new JLabel();
-            lblImg.setSize(img.getHeight()*n, img.getWidth()*n);
+            lblImg.setSize(img.getWidth()*n, img.getHeight()*n);
             lblImg.setOpaque(true);
             
             BufferedImage imgZoom = new BufferedImage(img.getHeight()*n, img.getWidth()*n, img.getType());
-            for (int i = 0; i < imgZoom.getHeight(); i++) {
-                for (int j = 0; j < imgZoom.getWidth(); j++) {
-                    imgZoom.setRGB(i, j, img.getRGB(i/n, j/n));
+            for (int y = 0; y < imgZoom.getHeight(); y++) {
+                for (int x = 0; x < imgZoom.getWidth(); x++) {
+                    imgZoom.setRGB(x, y, img.getRGB(x/n, y/n));
                 }
             }
             
