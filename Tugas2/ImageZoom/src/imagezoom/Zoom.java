@@ -248,7 +248,28 @@ public class Zoom extends javax.swing.JFrame {
     
     public void methodThree() {
         try {
+            int k = 3;
+            JFrame frame = new JFrame();
+            frame.setSize(((img.getHeight()-1)*k)+1, ((img.getWidth()-1)*k)+1);
+            frame.setLocationRelativeTo(null);
+            frame.setTitle("K Times Zooming");
             
+            JLabel lblImg = new JLabel();
+            lblImg.setSize(((img.getHeight()-1)*k)+1, ((img.getWidth()-1)*k)+1); //ini size baru nya//
+            lblImg.setOpaque(true);
+            
+            BufferedImage imgZoom = new BufferedImage(((img.getHeight()-1)*k)+1, ((img.getWidth()-1)*k)+1, img.getType());
+            
+            for (int i = 0; i < imgZoom.getHeight(); i++) {
+                for (int j = 0; j < imgZoom.getWidth(); j++) {
+                    imgZoom.setRGB(i, j, img.getRGB(((i-1)/k)+1, ((j-1)/k)+1));
+                }
+            } //Ini zoom method 1 woi//
+            
+            lblImg.setIcon(new ImageIcon(imgZoom));
+            frame.add(lblImg);
+            
+            frame.setVisible(true);
         }
         catch (Exception e) {
             e.printStackTrace();
